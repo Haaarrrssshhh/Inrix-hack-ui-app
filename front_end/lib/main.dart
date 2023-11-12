@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inrix_hack/screens/home_page.dart';
+//import 'package:inrix_hack/screens/home_page.dart';
 import 'package:inrix_hack/screens/location_input.dart';
 import 'package:inrix_hack/screens/login_page.dart';
 

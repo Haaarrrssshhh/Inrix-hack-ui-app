@@ -6,7 +6,6 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-// import 'package:/models/place.dart';
 import 'package:inrix_hack/models/places.dart';
 
 double wp1_lat = 37.770581; //sourceLocation.latitude;
@@ -141,17 +140,12 @@ class _LocationInputState extends State<LocationInput> {
 
   @override
   Widget build(BuildContext context) {
-    late Widget previewContent;
-
-    if (_pickedLocation != null) {
-      // setState(() {
-      //   sourceLocation =
-      //       LatLng(_pickedLocation!.latitude, _pickedLocation!.longitude);
-      // });
-      previewContent = Stack(
+    return Scaffold(
+      backgroundColor: Colors.greenAccent,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Container(
-            height: 600,
+          Expanded(
             child: GoogleMap(
               myLocationEnabled: true,
               initialCameraPosition:
@@ -171,75 +165,36 @@ class _LocationInputState extends State<LocationInput> {
                   Polyline(
                     polylineId: PolylineId("Polyline$i"),
                     points: polyCoordinates[i],
-                    color: (shortes[i] == true)
-                        ? const Color.fromARGB(255, 9, 154, 84)
-                        : const Color.fromARGB(255, 11, 9, 154),
+                    color: shortes[i] == true
+                        ? Color.fromARGB(255, 49, 158, 35)
+                        : Color.fromARGB(255, 15, 82, 121),
                     width: 4,
                   )
               },
             ),
           ),
-        ],
-      );
-    }
-
-    if (_isGettingLocation) {
-      previewContent = const CircularProgressIndicator();
-    }
-    return Container(
-      color: Colors.greenAccent,
-      child: Column(
-        children: [
-          Expanded(
-            child: Container(
-              // height: MediaQuery.of(context).size.height,
-              //height: 500,
-              width: double.infinity,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  width: 1,
-                  color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
-                ),
-              ),
-              child: Stack(
-                children: [
-                  GoogleMap(
-                    myLocationEnabled: true,
-                    initialCameraPosition:
-                        CameraPosition(target: sourceLocation, zoom: 14.5),
-                    markers: {
-                      Marker(
-                        markerId: MarkerId("Source"),
-                        position: sourceLocation,
-                      ),
-                      Marker(
-                        markerId: MarkerId("Destination"),
-                        position: destination,
-                      ),
-                    },
-                    polylines: {
-                      for (int i = 0; i < polyCoordinates.length; i++)
-                        Polyline(
-                          polylineId: PolylineId("Polyline$i"),
-                          points: polyCoordinates[i],
-                          color: shortes[i] == true
-                              ? Color.fromARGB(255, 49, 158, 35)
-                              : Color.fromARGB(255, 15, 82, 121),
-                          width: 4,
-                        )
-                    },
-                  ),
-                ],
+          Container(
+            child: const TextField(
+              decoration: InputDecoration(
+                labelText: 'Source',
+                prefixIcon: Icon(Icons.home),
               ),
             ),
           ),
-          // SizedBox(
-          //   height: 20,
-          // ),
-          ElevatedButton(
-            onPressed: ployPoint,
-            child: Text("Get Route"),
+          Container(
+            child: const TextField(
+              decoration: InputDecoration(
+                labelText: 'Destination',
+                prefixIcon: Icon(Icons.location_city),
+              ),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(right: 20),
+            child: ElevatedButton(
+              onPressed: ployPoint,
+              child: const Text("Get Route"),
+            ),
           ),
         ],
       ),
